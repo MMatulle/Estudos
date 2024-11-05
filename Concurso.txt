@@ -1,0 +1,73 @@
+import java.util.Scanner;
+
+public class Concurso {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Qual a quantidade de pessoas? ");
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        String[] nomes = new String[n];
+        double[] nota1 = new double[n];
+        double[] nota2 = new double[n];
+        double[] medias = new double[n];
+        boolean[] aprovados = new boolean[n];
+
+        double maiorMedia = 0;
+        String pessoaMaiorMedia = "";
+        int aprovadosCount = 0;
+        double somaMediasAprovados = 0;
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("Digite os dados da " + (i + 1) + "a pessoa:");
+            System.out.print("Nome: ");
+            nomes[i] = sc.nextLine();
+            System.out.print("Nota etapa 1: ");
+            nota1[i] = sc.nextDouble();
+            System.out.print("Nota etapa 2: ");
+            nota2[i] = sc.nextDouble();
+            sc.nextLine();
+
+            medias[i] = (nota1[i] + nota2[i]) / 2.0;
+
+            if (medias[i] >= 70) {
+                aprovados[i] = true;
+                aprovadosCount++;
+                somaMediasAprovados += medias[i];
+            }
+
+            if (medias[i] > maiorMedia) {
+                maiorMedia = medias[i];
+                pessoaMaiorMedia = nomes[i];
+            }
+        }
+
+        System.out.println("### TABELA ###");
+        for (int i = 0; i < n; i++) {
+            System.out.printf("%s, %.1f, %.1f, MEDIA = %.2f%n", nomes[i], nota1[i], nota2[i], medias[i]);
+        }
+
+        System.out.println("### PESSOAS APROVADAS ###");
+        if (aprovadosCount > 0) {
+            for (int i = 0; i < n; i++) {
+                if (aprovados[i]) {
+                    System.out.println(nomes[i]);
+                }
+            }
+            double porcentagemAprovacao = (aprovadosCount / (double) n) * 100;
+            System.out.printf("Porcentagem de aprovação: %.1f %%\n", porcentagemAprovacao);
+
+            System.out.println("Maior média: " + pessoaMaiorMedia);
+
+            double mediaAprovados = somaMediasAprovados / aprovadosCount;
+            System.out.printf("Nota média dos aprovados: %.2f%n", mediaAprovados);
+        } else {
+            System.out.println("Porcentagem de aprovação: 0.0 %");
+            System.out.println("Maior média: " + pessoaMaiorMedia);
+            System.out.println("Não há candidatos aprovados");
+        }
+
+        sc.close();
+    }
+}
